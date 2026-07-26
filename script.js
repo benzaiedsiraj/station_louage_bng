@@ -287,6 +287,8 @@ document.addEventListener('DOMContentLoaded', () => {
       next_louages_lbl: "Next Louages in Queue",
       queued_badge_suffix: "Queued",
       terminal_queue_title: "Terminal Dock Queue Status",
+      route_visual_title: "Interactive Journey & Stopovers",
+      origin_station: "Ben Guerdane",
       modal_terminal_bay: "Assigned Dock Bay",
       modal_fixed_price: "Official Tariff Rate",
       modal_vehicle_info: "Current Loading Vehicle",
@@ -367,6 +369,8 @@ document.addEventListener('DOMContentLoaded', () => {
       next_louages_lbl: "Louages Suivantes en File",
       queued_badge_suffix: "En File",
       terminal_queue_title: "File d'Attente des Louages au Quai",
+      route_visual_title: "Trajet et Escales Interactive",
+      origin_station: "Ben Guerdane",
       modal_terminal_bay: "Quai d'Embarquement",
       modal_fixed_price: "Tarif Officiel Réglementé",
       modal_vehicle_info: "Véhicule Actuel en Chargement",
@@ -447,6 +451,8 @@ document.addEventListener('DOMContentLoaded', () => {
       next_louages_lbl: "سيارات اللواج التالية في الانتظار",
       queued_badge_suffix: "في الانتظار",
       terminal_queue_title: "طابور سيارات اللواج بالرصيف",
+      route_visual_title: "مسار الرحلة والمدن العابرة",
+      origin_station: "بنقردان",
       modal_terminal_bay: "رصيف الانطلاق",
       modal_fixed_price: "التعريفة الرسمية المضبوطة",
       modal_vehicle_info: "معلومات السيارة الحالية",
@@ -683,6 +689,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* --- Design Upgrade #1: Attach 3D Parallax Card Tilt Listeners --- */
+  function attach3DTiltListeners() {
+    const cards = document.querySelectorAll('.dest-card');
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        if (window.innerWidth < 768) return;
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -5;
+        const rotateY = ((x - centerX) / centerX) * 5;
+
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px) scale(1.01)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)`;
+      });
+    });
+  }
+
   /* --- Render Destination Cards (8 Destinations) --- */
   function renderDestinations(items) {
     const t = translations[currentLang] || translations.en;
@@ -753,6 +782,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       destinationsGrid.appendChild(card);
     });
+
+    attach3DTiltListeners();
 
     document.querySelectorAll('.view-details-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -891,7 +922,54 @@ document.addEventListener('DOMContentLoaded', () => {
     startTimer();
   }
 
-  /* --- Travel Details Modal Window with Full License Plate & Model Queue Breakdown --- */
+  /* --- Design Upgrade #2: Animated Glowing Route Map Generator --- */
+  function generateRouteVisualHTML(stopoversStr, destinationName) {
+    const t = translations[currentLang] || translations.en;
+    const originName = t.origin_station || 'Ben Guerdane';
+
+    let stopoverNodes = [];
+    if (stopoversStr) {
+      stopoverNodes = stopoversStr.split(/[,،]/).map(s => s.trim()).filter(Boolean);
+    }
+
+    let html = `
+      <div class="route-visual-wrapper">
+        <div class="route-visual-header">
+          <i class="fa-solid fa-route" style="color: var(--accent);"></i>
+          <span>${t.route_visual_title}</span>
+        </div>
+        <div class="route-visual-timeline">
+          <div class="route-line-background"></div>
+          <div class="route-line-pulse"></div>
+
+          <div class="route-node origin-node">
+            <div class="node-dot origin-dot"><i class="fa-solid fa-location-dot"></i></div>
+            <div class="node-label">${originName}</div>
+          </div>
+    `;
+
+    stopoverNodes.forEach(stop => {
+      html += `
+        <div class="route-node stopover-node">
+          <div class="node-dot stopover-dot"></div>
+          <div class="node-label">${stop}</div>
+        </div>
+      `;
+    });
+
+    html += `
+          <div class="route-node dest-node">
+            <div class="node-dot dest-dot"><i class="fa-solid fa-flag-checkered"></i></div>
+            <div class="node-label">${destinationName}</div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    return html;
+  }
+
+  /* --- Travel Details Modal Window --- */
   function openDestinationModal(id) {
     const item = destinationsData.find(d => d.id === id);
     if (!item) return;
@@ -977,10 +1055,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         ${queueCardsHTML}
 
-        <div style="margin-bottom: 1.5rem;">
-          <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--text-main);">${t.modal_stopovers}</h4>
-          <p style="color: var(--text-muted); font-size: 0.9rem;"><i class="fa-solid fa-route" style="color: var(--accent);"></i> ${stopovers}</p>
-        </div>
+        ${generateRouteVisualHTML(stopovers, name)}
 
         <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 1rem 1.25rem; border-radius: var(--radius-md); display: flex; align-items: flex-start; gap: 0.8rem; font-size: 0.88rem; color: var(--text-main); margin-bottom: 1.5rem;">
           <i class="fa-solid fa-circle-info" style="color: var(--success); font-size: 1.2rem; margin-top: 0.1rem;"></i>
