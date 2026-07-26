@@ -2194,6 +2194,27 @@ textarea.form-control {
   [dir="rtl"] .slider-prev { left: auto; right: 0.5rem; }
   [dir="rtl"] .slider-next { right: auto; left: 0.5rem; }
 
+  .filter-pills {
+    flex-wrap: nowrap;
+    -webkit-flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0.35rem;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .filter-pills::-webkit-scrollbar {
+    display: none;
+  }
+  .filter-pill {
+    white-space: nowrap;
+    flex-shrink: 0;
+    -webkit-flex-shrink: 0;
+    scroll-snap-align: start;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.82rem;
+  }
+
   .about-img { height: 280px; }
 
   .about-stat-badge {

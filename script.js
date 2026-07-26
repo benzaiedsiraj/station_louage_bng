@@ -230,10 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
       hero_btn_dest: "View Destinations",
       hero_btn_about: "About Station",
       search_placeholder: "Search destination e.g. Tunis, Sfax, Djerba...",
-      filter_all: "All Destinations",
-      filter_available: "Available Now",
-      filter_almost: "Almost Full",
-      filter_departing: "Departing Soon",
+      filter_all_cities: "All Cities",
       dest_badge: "Popular Routes",
       dest_title: "Destination Hubs",
       dest_subtitle: "Explore routes departing from Ben Guerdane Louage Station across Tunisia.",
@@ -312,10 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
       hero_btn_dest: "Voir Destinations",
       hero_btn_about: "À Propos de la Station",
       search_placeholder: "Rechercher destination ex. Tunis, Sfax, Djerba...",
-      filter_all: "Toutes Destinations",
-      filter_available: "Disponible",
-      filter_almost: "Presque Plein",
-      filter_departing: "Départ Imminent",
+      filter_all_cities: "Toutes les Villes",
       dest_badge: "Lignes Populaires",
       dest_title: "Réseau de Destinations",
       dest_subtitle: "Découvrez les lignes au départ de la station de louage de Ben Guerdane.",
@@ -394,10 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
       hero_btn_dest: "عرض الوجهات",
       hero_btn_about: "عن المحطة",
       search_placeholder: "ابحث عن وجهتك مثل تونس، صفاقس، جربة...",
-      filter_all: "جميع الوجهات",
-      filter_available: "متاح الآن",
-      filter_almost: "شبه مكتمل",
-      filter_departing: "مغادرة وشيكة",
+      filter_all_cities: "جميع المدن",
       dest_badge: "الخطوط الشائعة",
       dest_title: "شبكة الوجهات",
       dest_subtitle: "استكشف الرحلات المنطلقة من محطة اللواج بنقردان نحو مختلف أنحاء تونس.",
@@ -472,7 +463,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const liveClockEl = document.getElementById('liveClock');
   const searchInput = document.getElementById('searchInput');
   const searchClearBtn = document.getElementById('searchClearBtn');
-  const filterPills = document.querySelectorAll('.filter-pill');
+  const filterPillsContainer = document.getElementById('filterPills');
   const destinationsGrid = document.getElementById('destinationsGrid');
   const mobileToggleBtn = document.getElementById('mobileToggle');
   const navMenu = document.getElementById('navMenu');
@@ -558,6 +549,56 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* --- Localized City Pills Render & Event Binding --- */
+  function renderCityPills() {
+    if (!filterPillsContainer) return;
+    const t = translations[currentLang] || translations.en;
+
+    let html = `
+      <button class="filter-pill active" data-city="all">${t.filter_all_cities}</button>
+    `;
+
+    destinationsData.forEach(dest => {
+      const cityName = currentLang === 'ar' ? dest.nameAr : (currentLang === 'fr' ? dest.nameFr : dest.nameEn);
+      html += `
+        <button class="filter-pill" data-city="${dest.id}">${cityName}</button>
+      `;
+    });
+
+    filterPillsContainer.innerHTML = html;
+
+    // Attach click listeners to scroll directly to the selected city's place
+    const cityPills = filterPillsContainer.querySelectorAll('.filter-pill');
+    cityPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        cityPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+
+        const cityId = pill.getAttribute('data-city');
+
+        if (cityId === 'all') {
+          if (searchInput) searchInput.value = '';
+          handleFilterChange();
+          const destSection = document.getElementById('destinations');
+          if (destSection) {
+            destSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        } else {
+          // Clear search so target city is guaranteed visible
+          if (searchInput) searchInput.value = '';
+          handleFilterChange();
+
+          const targetCard = document.querySelector(`.dest-card[data-id="${cityId}"]`);
+          if (targetCard) {
+            targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            targetCard.classList.add('seat-flash');
+            setTimeout(() => targetCard.classList.remove('seat-flash'), 1500);
+          }
+        }
+      });
+    });
+  }
+
   /* --- Set Language & Re-render --- */
   function setLanguage(lang) {
     currentLang = lang;
@@ -584,6 +625,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    renderCityPills();
     handleFilterChange();
   }
 
@@ -807,8 +849,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .trim();
   }
 
-  let activeFilter = 'all';
-
   function getFilteredDestinations() {
     const rawQuery = searchInput.value;
     const query = normalizeText(rawQuery);
@@ -825,10 +865,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `${item.distance} ${item.price} ${item.dock} ${item.plate}`
       );
 
-      const matchesSearch = query === '' || haystack.includes(query);
-      const matchesFilter = activeFilter === 'all' || item.status === activeFilter;
-
-      return matchesSearch && matchesFilter;
+      return query === '' || haystack.includes(query);
     });
   }
 
@@ -846,15 +883,6 @@ document.addEventListener('DOMContentLoaded', () => {
       searchInput.focus();
     });
   }
-
-  filterPills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      filterPills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      activeFilter = pill.getAttribute('data-filter');
-      handleFilterChange();
-    });
-  });
 
   /* --- Hero Slider Engine --- */
   function initHeroSlider() {
