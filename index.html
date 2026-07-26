@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ben Guerdane Louage Station | Real-Time Transport Hub</title>
+  <meta name="description" content="Real-time Louage departures, visual seat availability, prices, and travel schedules for Ben Guerdane Louage Station, Medenine, Tunisia.">
+
+  <!-- Google Fonts: Inter, Plus Jakarta Sans, Tajawal, Cairo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Sticky Navigation Bar -->
+  <header class="navbar">
+    <div class="container navbar-container">
+      <a href="#home" class="logo">
+        <div class="logo-icon">
+          <i class="fa-solid fa-van-shuttle"></i>
+        </div>
+        <div class="logo-text">
+          <span class="logo-title" data-i18n="brand_name">Ben Guerdane Louage</span>
+          <span class="logo-subtitle" data-i18n="brand_sub">Real-Time Hub • Tunisia</span>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="#home" class="nav-link active" data-i18n="nav_home">Home</a></li>
+          <li><a href="#destinations" class="nav-link" data-i18n="nav_destinations">Destinations</a></li>
+          <li><a href="#about" class="nav-link" data-i18n="nav_about">About</a></li>
+          <li><a href="#contact" class="nav-link" data-i18n="nav_contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Live 30s Auto-Sync Badge at Top -->
+        <div class="sync-status-pill" id="syncStatusPill" title="Live Seat Sync Engine (Auto-refreshes every 30 seconds)">
+          <i class="fa-solid fa-rotate sync-spin-icon" id="syncIcon"></i>
+          <span class="sync-text" id="syncText" data-i18n="sync_just_now">Synced just now</span>
+          <span class="sync-countdown-badge" id="syncTimer">30s</span>
+        </div>
+
+        <!-- Live Station Clock -->
+        <div class="live-clock-badge" title="Station Master Clock">
+          <span class="clock-dot"></span>
+          <span id="liveClock">12:00:00</span>
+        </div>
+
+        <!-- Language Switcher -->
+        <div class="lang-switcher">
+          <button class="lang-btn" data-lang="fr" aria-label="Passer au Français">FR</button>
+          <button class="lang-btn" data-lang="ar" aria-label="التغيير إلى العربية">AR</button>
+          <button class="lang-btn active" data-lang="en" aria-label="Switch to English">EN</button>
+        </div>
+
+        <!-- Dark Mode Toggle -->
+        <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode" aria-label="Toggle Dark Mode">
+          <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+
+        <!-- Mobile Nav Toggle -->
+        <button class="mobile-nav-toggle" id="mobileToggle" aria-label="Open Navigation Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="mainContent">
+    <!-- Hero Section (Full-Width Animated Showcase) -->
+    <section id="home" class="hero">
+      <div class="hero-slider-container" id="heroSlider">
+        
+        <!-- Background Slides -->
+        <div class="hero-slides-wrapper">
+          
+          <!-- Slide 1 -->
+          <div class="hero-slide active" data-slide="0">
+            <div class="hero-slide-bg">
+              <img src="images/benguerdene.png" alt="Ben Guerdane Station Gateway">
+            </div>
+            <div class="hero-slide-overlay"></div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="hero-slide" data-slide="1">
+            <div class="hero-slide-bg">
+              <img src="images/bng1.jpg" alt="Ben Guerdane Transport Plaza">
+            </div>
+            <div class="hero-slide-overlay"></div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="hero-slide" data-slide="2">
+            <div class="hero-slide-bg">
+              <img src="images/bng2.jpg" alt="Southeastern Express Corridor">
+            </div>
+            <div class="hero-slide-overlay"></div>
+          </div>
+
+          <!-- Slide 4 -->
+          <div class="hero-slide" data-slide="3">
+            <div class="hero-slide-bg">
+              <img src="images/bng3.jpg" alt="Regional Transport Hub">
+            </div>
+            <div class="hero-slide-overlay"></div>
+          </div>
+
+          <!-- Slide 5 -->
+          <div class="hero-slide" data-slide="4">
+            <div class="hero-slide-bg">
+              <img src="images/bng4.jpg" alt="Ben Guerdane Terminal Docks">
+            </div>
+            <div class="hero-slide-overlay"></div>
+          </div>
+
+          <!-- Slide 6 -->
+          <div class="hero-slide" data-slide="5">
+            <div class="hero-slide-bg">
+              <img src="images/bng5.jpg" alt="Ben Guerdane Hub View">
+            </div>
+            <div class="hero-slide-overlay"></div>
+          </div>
+
+          <!-- Slide 7 -->
+          <div class="hero-slide" data-slide="6">
+            <div class="hero-slide-bg">
+              <img src="images/bng6.jpg" alt="Ben Guerdane Express Route">
+            </div>
+            <div class="hero-slide-overlay"></div>
+          </div>
+
+          <!-- Slide 8 -->
+          <div class="hero-slide" data-slide="7">
+            <div class="hero-slide-bg">
+              <img src="images/bng7.jpg" alt="Ben Guerdane Louage Platform">
+            </div>
+            <div class="hero-slide-overlay"></div>
+          </div>
+
+        </div>
+
+        <!-- Floating Slide Content Glass Box -->
+        <div class="container hero-content-container">
+          <div class="hero-glass-box reveal active">
+            
+            <div class="hero-badge-row">
+              <div class="hero-tagline">
+                <i class="fa-solid fa-bolt"></i>
+                <span data-i18n="hero_tagline">Live Terminal Status • Ben Guerdane</span>
+              </div>
+              <div class="hero-slide-counter">
+                <span id="slideCurrentNum">01</span> / <span id="slideTotalNum">08</span>
+              </div>
+            </div>
+
+            <h1 class="hero-title" data-i18n="hero_title">Travel Across Tunisia</h1>
+            <p class="hero-subtitle" data-i18n="hero_subtitle">
+              Live information about available louages, real-time seat counts, prices, and departures from Ben Guerdane hub.
+            </p>
+
+            <div class="hero-cta">
+              <a href="#destinations" class="btn btn-primary" data-i18n="hero_btn_dest">
+                View Destinations <i class="fa-solid fa-arrow-right"></i>
+              </a>
+              <a href="#about" class="btn btn-secondary" data-i18n="hero_btn_about">
+                About Station <i class="fa-solid fa-circle-info"></i>
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Slider Controls -->
+        <button class="slider-arrow slider-prev" id="sliderPrev" aria-label="Previous Slide">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button class="slider-arrow slider-next" id="sliderNext" aria-label="Next Slide">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+        <!-- Navigation Dots -->
+        <div class="slider-dots" id="sliderDots">
+          <button class="dot active" data-slide="0" aria-label="Slide 1"></button>
+          <button class="dot" data-slide="1" aria-label="Slide 2"></button>
+          <button class="dot" data-slide="2" aria-label="Slide 3"></button>
+          <button class="dot" data-slide="3" aria-label="Slide 4"></button>
+          <button class="dot" data-slide="4" aria-label="Slide 5"></button>
+          <button class="dot" data-slide="5" aria-label="Slide 6"></button>
+          <button class="dot" data-slide="6" aria-label="Slide 7"></button>
+          <button class="dot" data-slide="7" aria-label="Slide 8"></button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Interactive Search & Filter Section -->
+    <section class="search-section">
+      <div class="container">
+        <div class="search-filter-wrapper reveal active">
+          <div class="search-input-group">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search destination e.g. Tunis, Sfax, Djerba..." data-i18n-placeholder="search_placeholder" autocomplete="off">
+            <button class="search-clear-btn" id="searchClearBtn" title="Clear Search" aria-label="Clear Search">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="filter-pills" id="filterPills">
+            <button class="filter-pill active" data-filter="all" data-i18n="filter_all">All Destinations</button>
+            <button class="filter-pill" data-filter="Available" data-i18n="filter_available">Available Now</button>
+            <button class="filter-pill" data-filter="Almost Full" data-i18n="filter_almost">Almost Full</button>
+            <button class="filter-pill" data-filter="Departing Soon" data-i18n="filter_departing">Departing Soon</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section id="destinations" class="destinations-section">
+      <div class="container">
+        <div class="section-header reveal active">
+          <span class="section-badge" data-i18n="dest_badge">Popular Routes</span>
+          <h2 class="section-title" data-i18n="dest_title">Destination Hubs</h2>
+          <p class="section-subtitle" data-i18n="dest_subtitle">
+            Explore routes departing from Ben Guerdane Louage Station across Tunisia.
+          </p>
+        </div>
+
+        <div class="destinations-grid" id="destinationsGrid">
+          <!-- 8 Cards populated dynamically via JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section (With user uploaded station entrance photo) -->
+    <section id="about" class="about-section">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-visual reveal active">
+            <div class="about-img-frame">
+              <img src="assets/about_station.jpg" alt="Ben Guerdane Louage Station Entrance Gate" class="about-img">
+            </div>
+            <div class="about-stat-badge">
+              <div class="about-stat-num">100%</div>
+              <div class="about-stat-lbl" data-i18n="about_stat_lbl">Digitalized Management</div>
+            </div>
+          </div>
+
+          <div class="about-content reveal active">
+            <span class="section-badge" data-i18n="about_badge">About Our Hub</span>
+            <h2 data-i18n="about_title">The Southeastern Transport Gateway of Tunisia</h2>
+            <p data-i18n="about_p1">
+              Ben Guerdane Louage Station serves as a vital arterial transport hub in Medenine Governorate, bridging southern Tunisia with coastal economic centers and international corridors.
+            </p>
+            <p data-i18n="about_p2">
+              Our modern station facility combines classic louage convenience with cutting-edge SaaS monitoring, ensuring comfortable waiting lounges, transparent pricing, and efficient vehicle dispatching.
+            </p>
+
+            <div class="about-highlights">
+              <div class="highlight-item">
+                <i class="fa-solid fa-circle-check highlight-icon"></i>
+                <span data-i18n="about_h1">Official Tariff Rates</span>
+              </div>
+              <div class="highlight-item">
+                <i class="fa-solid fa-circle-check highlight-icon"></i>
+                <span data-i18n="about_h2">Air-Conditioned Lounges</span>
+              </div>
+              <div class="highlight-item">
+                <i class="fa-solid fa-circle-check highlight-icon"></i>
+                <span data-i18n="about_h3">24/7 Security Supervision</span>
+              </div>
+              <div class="highlight-item">
+                <i class="fa-solid fa-circle-check highlight-icon"></i>
+                <span data-i18n="about_h4">Priority Baggage Handling</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact & Verified Google Maps Section -->
+    <section id="contact" class="contact-section">
+      <div class="container">
+        <div class="section-header reveal active">
+          <span class="section-badge" data-i18n="contact_badge">Get In Touch</span>
+          <h2 class="section-title" data-i18n="contact_title">Contact Station Administration</h2>
+          <p class="section-subtitle" data-i18n="contact_subtitle">
+            Have questions regarding routes, group travel, or lost & found? Reach out to our team.
+          </p>
+        </div>
+
+        <div class="contact-grid">
+          
+          <div class="contact-info-card reveal active">
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <div class="contact-text">
+                <h4 data-i18n="contact_addr_title">Station Location</h4>
+                <p data-i18n="contact_addr_desc">Avenue Habib Bourguiba / Route Ras Jedir, Ben Guerdane 4160, Medenine, Tunisia</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fa-solid fa-phone"></i>
+              </div>
+              <div class="contact-text">
+                <h4 data-i18n="contact_phone_title">Phone & Support</h4>
+                <p>+216 75 600 123 / +216 75 600 456</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fa-solid fa-envelope"></i>
+              </div>
+              <div class="contact-text">
+                <h4 data-i18n="contact_email_title">Email Address</h4>
+                <p>contact@benguerdane-louage.tn</p>
+              </div>
+            </div>
+
+            <!-- Verified Exact Google Maps Card (Pin on exact coordinates: 33.1423058, 11.2170571) -->
+            <div class="map-card-wrapper">
+              <div class="map-card-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                  <i class="fa-solid fa-map-location-dot" style="color: var(--accent); font-size: 1.2rem;"></i>
+                  <div>
+                    <h4 style="font-size: 0.95rem; font-weight: 800; line-height: 1.2;" data-i18n="map_pin_title">Ben Guerdane Louage Station</h4>
+                    <span style="font-size: 0.78rem; color: var(--text-muted);">33.1423° N, 11.2171° E • Medenine, Tunisia</span>
+                  </div>
+                </div>
+                <a href="https://maps.app.goo.gl/9XgontDC8rH2j6Gy7" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm map-link-btn" title="Open in Google Maps">
+                  <i class="fa-solid fa-up-right-from-square"></i> <span data-i18n="map_btn_open">Open Map</span>
+                </a>
+              </div>
+              <div class="map-iframe-container">
+                <iframe 
+                  src="https://maps.google.com/maps?q=33.1423058,11.2170571&hl=en&z=17&output=embed" 
+                  width="100%" 
+                  height="220" 
+                  style="border:0; border-radius: var(--radius-md);" 
+                  allowfullscreen="" 
+                  loading="lazy" 
+                  referrerpolicy="no-referrer-when-downgrade"
+                  title="Louage Station in Ben Guerdane Exact Google Maps Location">
+                </iframe>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Contact Form -->
+          <form class="contact-form reveal active" id="contactForm">
+            <div class="form-group">
+              <label class="form-label" for="contactName" data-i18n="form_name">Full Name</label>
+              <input type="text" id="contactName" class="form-control" placeholder="e.g. Mohamed Ben Salem" data-i18n-placeholder="form_name_placeholder" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contactEmail" data-i18n="form_email">Email Address</label>
+              <input type="email" id="contactEmail" class="form-control" placeholder="name@example.com" data-i18n-placeholder="form_email_placeholder" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contactMessage" data-i18n="form_message">Your Message</label>
+              <textarea id="contactMessage" class="form-control" placeholder="Write your inquiry here..." data-i18n-placeholder="form_msg_placeholder" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;" data-i18n="form_btn">
+              Send Message <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </form>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        
+        <div class="footer-brand">
+          <a href="#home" class="logo">
+            <div class="logo-icon">
+              <i class="fa-solid fa-van-shuttle"></i>
+            </div>
+            <div class="logo-text">
+              <span class="logo-title" data-i18n="brand_name">Ben Guerdane Louage</span>
+              <span class="logo-subtitle" data-i18n="footer_gov">Medenine Governorate • Tunisia</span>
+            </div>
+          </a>
+          <p class="footer-desc" data-i18n="footer_desc">
+            Ben Guerdane Louage Station real-time passenger transport hub. Connecting southern Tunisia with major coastal and inland cities with live seat availability.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-title" data-i18n="footer_quick_links">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="#home" class="footer-link" data-i18n="nav_home">Home</a></li>
+            <li><a href="#destinations" class="footer-link" data-i18n="nav_destinations">Destinations</a></li>
+            <li><a href="#about" class="footer-link" data-i18n="nav_about">About Station</a></li>
+            <li><a href="#contact" class="footer-link" data-i18n="nav_contact">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title" data-i18n="footer_top_routes">Top Routes</h4>
+          <ul class="footer-links">
+            <li><a href="#destinations" class="footer-link">Ben Guerdane → Tunis</a></li>
+            <li><a href="#destinations" class="footer-link">Ben Guerdane → Sfax</a></li>
+            <li><a href="#destinations" class="footer-link">Ben Guerdane → Sousse</a></li>
+            <li><a href="#destinations" class="footer-link">Ben Guerdane → Gabès</a></li>
+            <li><a href="#destinations" class="footer-link">Ben Guerdane → Djerba</a></li>
+          </ul>
+        </div>
+
+        <!-- Project Team Section -->
+        <div class="footer-team-col">
+          <h4 class="footer-title" data-i18n="footer_project_team">Project Team</h4>
+          <div class="team-members">
+            <div class="team-member-card">
+              <div class="team-avatar-icon"><i class="fa-solid fa-user-tie"></i></div>
+              <div class="team-info">
+                <span class="team-member-name">Ali Chouat</span>
+                <span class="team-member-role" data-i18n="role_ali">Project Lead & System Analyst</span>
+              </div>
+            </div>
+
+            <div class="team-member-card highlight-card">
+              <div class="team-avatar-icon code-avatar"><i class="fa-solid fa-code"></i></div>
+              <div class="team-info">
+                <a href="https://benzaiedsiraj.github.io/portfolio/" target="_blank" rel="noopener noreferrer" class="team-member-name team-siraj-link" title="Visit Siraj's Portfolio">
+                  Siraj <i class="fa-solid fa-arrow-up-right-from-square siraj-ext-icon"></i>
+                </a>
+                <span class="team-member-role" data-i18n="role_siraj">Full-Stack Developer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026 Ben Guerdane Louage Information System. <span data-i18n="footer_rights">All rights reserved.</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--success); font-weight: 700;">
+          <span class="clock-dot"></span> <span data-i18n="footer_system_op">System Operational • Real-Time Sync Active</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Back to Top Button -->
+  <a href="#home" class="btn btn-primary btn-icon back-to-top" id="backToTop" title="Back to Top" aria-label="Back to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </a>
+
+  <!-- Travel Details Modal -->
+  <div class="modal-backdrop" id="destModal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true">
+      <button class="modal-close" id="modalClose" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
+      <div id="modalBody">
+        <!-- Content dynamically populated by script.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-notification" id="toast">
+    <i class="fa-solid fa-circle-check" style="color: var(--success); font-size: 1.2rem;"></i>
+    <span id="toastMessage">Message sent successfully!</span>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="script.js"></script>
+</body>
+</html>
