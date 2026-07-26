@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let syncCountdown = 30;
   let syncInterval = null;
 
-  /* --- Master 8 Destinations Dataset --- */
+  /* --- Master 8 Destinations Dataset with Queued Louages --- */
   const destinationsData = [
     {
       id: 'tunis',
@@ -23,6 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
       freqEn: 'Every 30 min', freqFr: 'Toutes les 30 min', freqAr: 'كل 30 دقيقة',
       totalSeats: 8, availableSeats: 5, status: 'Available', dock: 'Dock 1',
       plate: '142 TN 8891', model: 'Peugeot Expert (Air-Con)',
+      queuedLouages: [
+        { num: 2, plate: '156 TN 9102', model: 'Peugeot Boxer' },
+        { num: 3, plate: '178 TN 1240', model: 'Citroën Jumper' }
+      ],
       stopoversEn: 'Medenine, Gabes, Sfax, Sousse',
       stopoversFr: 'Médenine, Gabès, Sfax, Sousse',
       stopoversAr: 'مدنين، قابس، صفاقس، سوسة',
@@ -43,6 +47,11 @@ document.addEventListener('DOMContentLoaded', () => {
       freqEn: 'Every 45 min', freqFr: 'Toutes les 45 min', freqAr: 'كل 45 دقيقة',
       totalSeats: 8, availableSeats: 3, status: 'Almost Full', dock: 'Dock 2',
       plate: '118 TN 4022', model: 'Volkswagen Transporter T6',
+      queuedLouages: [
+        { num: 2, plate: '144 TN 2011', model: 'VW Transporter T6' },
+        { num: 3, plate: '160 TN 8812', model: 'Peugeot Expert' },
+        { num: 4, plate: '185 TN 3309', model: 'Renault Master' }
+      ],
       stopoversEn: 'Gabes, Maharès, Sfax',
       stopoversFr: 'Gabès, Maharès, Sfax',
       stopoversAr: 'قابس، المحرس، صفاقس',
@@ -63,6 +72,12 @@ document.addEventListener('DOMContentLoaded', () => {
       freqEn: 'Every 20 min', freqFr: 'Toutes les 20 min', freqAr: 'كل 20 دقيقة',
       totalSeats: 8, availableSeats: 2, status: 'Almost Full', dock: 'Dock 3',
       plate: '135 TN 6710', model: 'Peugeot Boxer Express',
+      queuedLouages: [
+        { num: 2, plate: '129 TN 5510', model: 'Peugeot Expert' },
+        { num: 3, plate: '151 TN 6620', model: 'Citroën Jumper' },
+        { num: 4, plate: '168 TN 7730', model: 'Fiat Ducato' },
+        { num: 5, plate: '190 TN 8840', model: 'VW Caravelle' }
+      ],
       stopoversEn: 'Gabes, Maharès',
       stopoversFr: 'Gabès, Maharès',
       stopoversAr: 'قابس، المحرس',
@@ -83,6 +98,10 @@ document.addEventListener('DOMContentLoaded', () => {
       freqEn: 'Every 15 min', freqFr: 'Toutes les 15 min', freqAr: 'كل 15 دقيقة',
       totalSeats: 8, availableSeats: 1, status: 'Departing Soon', dock: 'Dock 4',
       plate: '95 TN 4410', model: 'Citroën Jumper HDi',
+      queuedLouages: [
+        { num: 2, plate: '102 TN 3311', model: 'Citroën Jumper' },
+        { num: 3, plate: '145 TN 4422', model: 'Peugeot Expert' }
+      ],
       stopoversEn: 'Mareth, Matmata Junction',
       stopoversFr: 'Mareth, Jonction Matmata',
       stopoversAr: 'مareth، مفترق مطماطة',
@@ -103,6 +122,12 @@ document.addEventListener('DOMContentLoaded', () => {
       freqEn: 'Continuous', freqFr: 'En continu', freqAr: 'مستمر على مدار الساعة',
       totalSeats: 8, availableSeats: 6, status: 'Available', dock: 'Dock 5',
       plate: '130 TN 1092', model: 'Peugeot Expert Combi',
+      queuedLouages: [
+        { num: 2, plate: '112 TN 1001', model: 'Peugeot Expert' },
+        { num: 3, plate: '125 TN 2002', model: 'Renault Master' },
+        { num: 4, plate: '138 TN 3003', model: 'Citroën Jumper' },
+        { num: 5, plate: '150 TN 4004', model: 'VW Caravelle' }
+      ],
       stopoversEn: 'Direct Express Shuttle',
       stopoversFr: 'Navette Directe Express',
       stopoversAr: 'مباشر بدون توقف',
@@ -123,6 +148,11 @@ document.addEventListener('DOMContentLoaded', () => {
       freqEn: 'Continuous', freqFr: 'En continu', freqAr: 'مستمر على مدار الساعة',
       totalSeats: 8, availableSeats: 4, status: 'Available', dock: 'Dock 6',
       plate: '88 TN 6625', model: 'Renault Master DCI',
+      queuedLouages: [
+        { num: 2, plate: '92 TN 1122', model: 'Renault Master' },
+        { num: 3, plate: '115 TN 3344', model: 'Peugeot Expert' },
+        { num: 4, plate: '140 TN 5566', model: 'Citroën Jumper' }
+      ],
       stopoversEn: 'Souihel Coast Road',
       stopoversFr: 'Route Côtière Souihel',
       stopoversAr: 'طريق سويحل الساحلي',
@@ -143,6 +173,10 @@ document.addEventListener('DOMContentLoaded', () => {
       freqEn: 'Every 20 min', freqFr: 'Toutes les 20 min', freqAr: 'كل 20 دقيقة',
       totalSeats: 8, availableSeats: 7, status: 'Available', dock: 'Dock 7',
       plate: '104 TN 3301', model: 'Volkswagen Caravelle',
+      queuedLouages: [
+        { num: 2, plate: '110 TN 9911', model: 'VW Caravelle' },
+        { num: 3, plate: '132 TN 8822', model: 'Peugeot Expert' }
+      ],
       stopoversEn: 'El Kantara Roman Causeway, Houmt Souk',
       stopoversFr: 'Chaussée Romaine El Kantara, Houmt Souk',
       stopoversAr: 'القنطرة الرومانية، حومة السوق',
@@ -163,6 +197,11 @@ document.addEventListener('DOMContentLoaded', () => {
       freqEn: 'Every 30 min', freqFr: 'Toutes les 30 min', freqAr: 'كل 30 دقيقة',
       totalSeats: 8, availableSeats: 2, status: 'Almost Full', dock: 'Dock 8',
       plate: '99 TN 5218', model: 'Peugeot Expert HDI',
+      queuedLouages: [
+        { num: 2, plate: '105 TN 4411', model: 'Peugeot Expert' },
+        { num: 3, plate: '128 TN 5522', model: 'Renault Master' },
+        { num: 4, plate: '154 TN 6633', model: 'Citroën Jumper' }
+      ],
       stopoversEn: 'Ghomrassen Junction, Ksar Ouled Soltane Jct',
       stopoversFr: 'Jonction Ghomrassen, Ksar Ouled Soltane',
       stopoversAr: 'مفترق غمراسن، كسر أولاد سلطان',
@@ -244,15 +283,18 @@ document.addEventListener('DOMContentLoaded', () => {
       status_almost: "Almost Full",
       status_departing: "Departing Soon",
       status_waiting: "Waiting",
-      seat_map_title: "Live Seat Layout (8 Seats)",
+      seat_map_title: "Active Louage (#1 Loading)",
+      next_louages_lbl: "Next Louages in Queue",
+      queued_badge_suffix: "Queued",
+      terminal_queue_title: "Terminal Dock Queue Status",
       modal_terminal_bay: "Assigned Dock Bay",
       modal_fixed_price: "Official Tariff Rate",
-      modal_vehicle_info: "Vehicle Information",
-      modal_stopovers: "Intermediate Stopovers",
-      modal_tips: "Travel Guidance & Tips",
+      modal_vehicle_info: "Current Loading Vehicle",
+      modal_stopovers: "Stopovers and Route",
+      modal_tips: "Travel Guidance",
       modal_close: "Close Overview",
-      seat_tooltip_avail: "Seat Available for Booking",
-      seat_tooltip_occ: "Seat Occupied by Passenger",
+      seat_tooltip_avail: "Available Seat",
+      seat_tooltip_occ: "Occupied Seat",
       no_results: "No destinations found matching your criteria."
     },
     fr: {
@@ -321,10 +363,13 @@ document.addEventListener('DOMContentLoaded', () => {
       status_almost: "Presque Plein",
       status_departing: "Départ Imminent",
       status_waiting: "En Attente",
-      seat_map_title: "Plan des 8 Sièges",
+      seat_map_title: "Louage Active (#1 En Chargement)",
+      next_louages_lbl: "Louages Suivantes en File",
+      queued_badge_suffix: "En File",
+      terminal_queue_title: "File d'Attente des Louages au Quai",
       modal_terminal_bay: "Quai d'Embarquement",
       modal_fixed_price: "Tarif Officiel Réglementé",
-      modal_vehicle_info: "Information du Véhicule",
+      modal_vehicle_info: "Véhicule Actuel en Chargement",
       modal_stopovers: "Escale et Villes Traversées",
       modal_tips: "Conseils et Guide Voyage",
       modal_close: "Fermer Aperçu",
@@ -398,10 +443,13 @@ document.addEventListener('DOMContentLoaded', () => {
       status_almost: "شبه مكتمل",
       status_departing: "انطلاق وشيك",
       status_waiting: "في الانتظار",
-      seat_map_title: "مخطط 8 مقاعد",
+      seat_map_title: "سيارة اللواج الحالية (#1 قيد الركوب)",
+      next_louages_lbl: "سيارات اللواج التالية في الانتظار",
+      queued_badge_suffix: "في الانتظار",
+      terminal_queue_title: "طابور سيارات اللواج بالرصيف",
       modal_terminal_bay: "رصيف الانطلاق",
       modal_fixed_price: "التعريفة الرسمية المضبوطة",
-      modal_vehicle_info: "معلومات السيارة",
+      modal_vehicle_info: "معلومات السيارة الحالية",
       modal_stopovers: "محطات التوقف والمدن العابرة",
       modal_tips: "دليل وإرشادات السفر",
       modal_close: "إغلاق النظرة العامة",
@@ -502,18 +550,55 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => card.classList.remove('seat-flash'), 1000);
       }
     }
-
-    const t = translations[currentLang] || translations.en;
-    if (syncTextEl) {
-      syncTextEl.textContent = t.sync_just_now;
-    }
   }
 
-  /* --- Dark / Light Theme Toggle --- */
+  /* --- Set Language & Re-render --- */
+  function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('station_lang', lang);
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+    langBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+
+    const t = translations[lang] || translations.en;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (t[key]) {
+        el.textContent = t[key];
+      }
+    });
+
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (t[key]) {
+        el.placeholder = t[key];
+      }
+    });
+
+    handleFilterChange();
+  }
+
+  langBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lang = btn.getAttribute('data-lang');
+      if (lang !== currentLang) {
+        mainContent.classList.add('lang-fade-out');
+        setTimeout(() => {
+          setLanguage(lang);
+          mainContent.classList.remove('lang-fade-out');
+        }, 200);
+      }
+    });
+  });
+
+  /* --- Theme Handler --- */
   function setTheme(theme) {
     currentTheme = theme;
-    document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('station_theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
     themeIcon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
   }
 
@@ -521,19 +606,32 @@ document.addEventListener('DOMContentLoaded', () => {
     setTheme(currentTheme === 'light' ? 'dark' : 'light');
   });
 
-  /* --- 8-Seat Visual Map Generator --- */
-  function generateSeatMapHTML(availableSeats, totalSeats = 8) {
+  /* --- 8-Seat Visual Map Generator with Clean Queued Louages Count Summary --- */
+  function generateSeatMapHTML(availableSeats, totalSeats = 8, queuedLouages = []) {
     const t = translations[currentLang] || translations.en;
     const occupiedSeatsCount = totalSeats - availableSeats;
+    const queuedCount = queuedLouages ? queuedLouages.length : 0;
     
+    let queuedText = '';
+    if (queuedCount === 1) {
+      queuedText = currentLang === 'ar' ? 'سيارة لواج واحدة في الانتظار' : (currentLang === 'fr' ? '1 Louage en Attente' : '1 Louage in Queue');
+    } else if (queuedCount > 1) {
+      queuedText = currentLang === 'ar' ? `${queuedCount} سيارات لواج في الانتظار` : (currentLang === 'fr' ? `${queuedCount} Louages en Attente` : `${queuedCount} Louages in Queue`);
+    }
+
     let html = `
       <div class="seat-visualization-box">
         <div class="seat-vis-header">
-          <span><i class="fa-solid fa-chair" style="color: var(--accent);"></i> ${t.seat_map_title}</span>
-          <span style="font-weight: 800; color: ${availableSeats > 0 ? 'var(--success)' : 'var(--danger)'};">
-            ${availableSeats} / ${totalSeats} ${t.seats_avail}
-          </span>
+          <div class="seat-vis-title-group">
+            <span class="seat-vis-main-title"><i class="fa-solid fa-chair" style="color: var(--accent);"></i> ${t.seat_map_title}</span>
+          </div>
+          <div class="seat-vis-badges">
+            <span class="seat-avail-count-badge ${availableSeats > 0 ? 'avail-green' : 'avail-red'}">
+              ${availableSeats} / ${totalSeats} ${t.seats_avail}
+            </span>
+          </div>
         </div>
+
         <div class="seat-grid-8">
     `;
 
@@ -552,6 +650,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     html += `
         </div>
+    `;
+
+    /* Clean Queued Louages Count Summary Footer */
+    if (queuedCount > 0) {
+      html += `
+        <div class="queued-count-footer">
+          <i class="fa-solid fa-van-shuttle" style="color: var(--accent);"></i>
+          <span>${queuedText}</span>
+        </div>
+      `;
+    }
+
+    html += `
       </div>
     `;
 
@@ -623,7 +734,7 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             </div>
 
-            ${generateSeatMapHTML(dest.availableSeats, 8)}
+            ${generateSeatMapHTML(dest.availableSeats, 8, dest.queuedLouages)}
           </div>
         </div>
 
@@ -750,8 +861,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (slideTimer) clearInterval(slideTimer);
     }
 
-    if (sliderNextBtn) sliderNextBtn.addEventListener('click', () => { nextSlide(); startTimer(); });
-    if (sliderPrevBtn) sliderPrevBtn.addEventListener('click', () => { goToSlide(slideIndex - 1); startTimer(); });
+    if (sliderNextBtn) {
+      sliderNextBtn.addEventListener('click', () => {
+        nextSlide();
+        startTimer();
+      });
+    }
+
+    if (sliderPrevBtn) {
+      sliderPrevBtn.addEventListener('click', () => {
+        goToSlide(slideIndex - 1);
+        startTimer();
+      });
+    }
 
     dots.forEach((dot, idx) => {
       dot.addEventListener('click', () => {
@@ -769,49 +891,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startTimer();
   }
 
-  /* --- Multi-Language Switcher Engine --- */
-  function setLanguage(lang) {
-    currentLang = lang;
-    localStorage.setItem('station_lang', lang);
-    document.documentElement.setAttribute('lang', lang);
-    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-
-    mainContent.classList.add('lang-fade-out');
-
-    setTimeout(() => {
-      langBtns.forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-      });
-
-      const t = translations[lang] || translations.en;
-
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (t[key]) {
-          el.textContent = t[key];
-        }
-      });
-
-      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        if (t[key]) {
-          el.placeholder = t[key];
-        }
-      });
-
-      handleFilterChange();
-      mainContent.classList.remove('lang-fade-out');
-    }, 200);
-  }
-
-  langBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const selectedLang = btn.getAttribute('data-lang');
-      setLanguage(selectedLang);
-    });
-  });
-
-  /* --- Travel Details Modal Window --- */
+  /* --- Travel Details Modal Window with Full License Plate & Model Queue Breakdown --- */
   function openDestinationModal(id) {
     const item = destinationsData.find(d => d.id === id);
     if (!item) return;
@@ -823,6 +903,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const stopovers = currentLang === 'ar' ? item.stopoversAr : (currentLang === 'fr' ? item.stopoversFr : item.stopoversEn);
     const desc = currentLang === 'ar' ? item.descAr : (currentLang === 'fr' ? item.descFr : item.descEn);
     const tips = currentLang === 'ar' ? item.tipsAr : (currentLang === 'fr' ? item.tipsFr : item.tipsEn);
+
+    let queueCardsHTML = '';
+    if (item.queuedLouages && item.queuedLouages.length > 0) {
+      queueCardsHTML = `
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 0.75rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-list-ol" style="color: var(--accent);"></i> ${t.terminal_queue_title}
+          </h4>
+          <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+            <div style="background: rgba(37, 99, 235, 0.1); border: 1px solid rgba(37, 99, 235, 0.3); padding: 0.85rem 1.1rem; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <strong style="color: var(--accent); font-size: 0.85rem; display: block;">#1 - ${t.modal_vehicle_info}</strong>
+                <span style="font-size: 0.9rem; font-weight: 700;">${item.model}</span>
+              </div>
+              <span class="vehicle-plate">${item.plate}</span>
+            </div>
+
+            ${item.queuedLouages.map(q => `
+              <div style="background: var(--bg-input); border: 1px solid var(--border-color); padding: 0.75rem 1rem; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                  <strong style="color: var(--text-muted); font-size: 0.82rem; display: block;">#${q.num} - ${t.queued_badge_suffix}</strong>
+                  <span style="font-size: 0.88rem; font-weight: 700;">${q.model}</span>
+                </div>
+                <span style="background: var(--bg-card-solid); border: 1px solid var(--border-color); padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 800; font-size: 0.8rem;">
+                  ${q.plate}
+                </span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
 
     modalBody.innerHTML = `
       <div class="modal-hero-banner">
@@ -861,15 +973,9 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>
 
-        <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 1rem; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
-          <div>
-            <span style="font-size: 0.75rem; color: var(--text-muted); display: block; font-weight: 700;">${t.modal_vehicle_info}</span>
-            <strong style="font-size: 0.95rem;">${item.model}</strong>
-          </div>
-          <span class="vehicle-plate">${item.plate}</span>
-        </div>
+        ${generateSeatMapHTML(item.availableSeats, 8, item.queuedLouages)}
 
-        ${generateSeatMapHTML(item.availableSeats, 8)}
+        ${queueCardsHTML}
 
         <div style="margin-bottom: 1.5rem;">
           <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--text-main);">${t.modal_stopovers}</h4>
