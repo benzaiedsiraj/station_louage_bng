@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
       nav_about: "About",
       nav_contact: "Contact",
       hero_tagline: "Live Terminal Status • Ben Guerdane",
-      hero_title: "Travel Across Tunisia",
+      hero_title: "Ben Guerdane Louage Station",
       hero_subtitle: "Live information about available louages, real-time seat counts, prices, and departures from Ben Guerdane hub.",
       hero_btn_dest: "View Destinations",
       hero_btn_about: "About Station",
@@ -230,6 +230,8 @@ document.addEventListener('DOMContentLoaded', () => {
       footer_project_team: "Project Team",
       role_ali: "Project Lead & System Analyst",
       role_siraj: "Full-Stack Developer",
+      footer_credit_prefix: "Designed and built by",
+      footer_credit_and: "and",
       footer_rights: "All rights reserved.",
       footer_system_op: "System Operational • Real-Time Sync Active",
       sync_just_now: "Synced just now",
@@ -261,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
       nav_about: "À Propos",
       nav_contact: "Contact",
       hero_tagline: "Statut En Direct • Ben Guerdane",
-      hero_title: "Voyagez à Travers la Tunisie",
+      hero_title: "Station de Louage Ben Guerdane",
       hero_subtitle: "Informations en direct sur les louages disponibles, les places en temps réel, les prix et les départs depuis Ben Guerdane.",
       hero_btn_dest: "Voir Destinations",
       hero_btn_about: "À Propos de la Station",
@@ -305,6 +307,8 @@ document.addEventListener('DOMContentLoaded', () => {
       footer_project_team: "Équipe du Projet",
       role_ali: "Chef de Projet & Analyste Système",
       role_siraj: "Développeur Full-Stack",
+      footer_credit_prefix: "Conçu et développé par",
+      footer_credit_and: "et",
       footer_rights: "Tous droits réservés.",
       footer_system_op: "Système Opérationnel • Synchro Temps Réel",
       sync_just_now: "Mis à jour à l'instant",
@@ -329,14 +333,14 @@ document.addEventListener('DOMContentLoaded', () => {
       no_results: "Aucune destination ne correspond à votre recherche."
     },
     ar: {
-      brand_name: "محطة سيارات اللواج بنقردان",
+      brand_name: "محطة لواج بنقردان",
       brand_sub: "مركز المعلومات المباشر • تونس",
       nav_home: "الرئيسية",
       nav_destinations: "الوجهات",
       nav_about: "عن المحطة",
       nav_contact: "اتصل بنا",
       hero_tagline: "حالة المحطة المباشرة • بنقردان",
-      hero_title: "سافر عبر تونس بكل سهولة",
+      hero_title: "محطة لواج بنقردان",
       hero_subtitle: "معلومات مباشرة عن سيارات اللواج المتاحة، الأماكن الشاغرة المرئية، الأسعار، والمغادرات من محطة بنقردان.",
       hero_btn_dest: "عرض الوجهات",
       hero_btn_about: "عن المحطة",
@@ -380,6 +384,8 @@ document.addEventListener('DOMContentLoaded', () => {
       footer_project_team: "فريق المشروع",
       role_ali: "قائد المشروع ومحلل النظم",
       role_siraj: "مطور الويب الشامل",
+      footer_credit_prefix: "تصميم وتطوير",
+      footer_credit_and: "و",
       footer_rights: "جميع الحقوق محفوظة.",
       footer_system_op: "النظام يعمل • التحديث المباشر نشط",
       sync_just_now: "تم التحديث الآن",
@@ -466,13 +472,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function triggerLiveSyncRefresh() {
-    // Spin refresh icon
     if (syncIconEl) {
       syncIconEl.classList.add('spinning');
       setTimeout(() => syncIconEl.classList.remove('spinning'), 800);
     }
 
-    // Perform random simulation seat update
     if (destinationsData && destinationsData.length > 0) {
       const randomIndex = Math.floor(Math.random() * destinationsData.length);
       const target = destinationsData[randomIndex];
@@ -499,7 +503,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Flash sync text indicator
     const t = translations[currentLang] || translations.en;
     if (syncTextEl) {
       syncTextEl.textContent = t.sync_just_now;
@@ -648,7 +651,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* --- 100% Robust Multi-Language Search & Normalization --- */
+  /* --- Multi-Language Search & Normalization --- */
   function normalizeText(str) {
     if (!str) return '';
     return String(str)
@@ -924,6 +927,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* --- Live Clock --- */
   function initLiveClock() {
     function updateClock() {
+      if (!liveClockEl) return;
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
@@ -943,7 +947,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Immediately unveil all elements so no blank/white sections appear
     checkReveals();
     setTimeout(checkReveals, 100);
 
@@ -960,6 +963,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (mobileToggleBtn) {
     mobileToggleBtn.addEventListener('click', () => {
       navMenu.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+      });
     });
   }
 
